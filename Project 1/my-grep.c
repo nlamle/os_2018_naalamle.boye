@@ -26,8 +26,9 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
-	//multiple files
 	
+
+	//multiple files, for each file, call myGrep function
 	else
 	{
 		int i = 1;
@@ -54,7 +55,8 @@ int myGrep(char *search_term, char *filename){
 
 	else{
 
-		//get number of lines in the file
+		//get number of lines in the file using characters
+		//a line ends when a newline character is reached
 		int nlines = 0;
 		char chrs;
 		chrs = fgetc(fstream);

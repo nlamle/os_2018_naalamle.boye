@@ -4,9 +4,7 @@
 
 //for each word in the file, look for search term
 
-//if term exists, add entire line to data structure
-
-//for each item in the data structure, print to console
+//if term exists, print line to console
 
 //close file, clear processor resources
 

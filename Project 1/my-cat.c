@@ -2,6 +2,8 @@
 #include <stdlib.h>
 
 int myCat(char *filename);
+//create a string for storing lines from fgets()
+char *line;
 
 int main(int argc, char *argv[])
 {
@@ -13,11 +15,10 @@ int main(int argc, char *argv[])
 
 	//if multiple files
 	else{
-		//files printed out until end of file list
 		int i = 1;
+		//files printed out until end of file list
 		while (i < argc){
 			myCat(argv[i]);
-			//printf("%s\n", argv[i]);
 			i = i + 1;
 		}
 	}
@@ -44,36 +45,31 @@ int myCat(char *filename){
 		chrs = fgetc(fptr);
 	}
 
-
-
-	printf("There are %d lines in the file '%s'.\n\n", nlines, filename);
-	
-	char lines[nlines];
-
-
 	//if file is unable to open, print error message
 	if (fptr == NULL) {
 		perror("my-cat: cannot open file\n");
 		exit(1);
 	}
 
-	
 
-//for each line in the file, store in a buffer, then print line
-	else{
-		
-		while (nlines > 0){
-			
-			char *next_line = fgets(lines, 100, fptr);
-			printf("%s", next_line);
-			nlines = nlines - 1;
+	//for each line in the file, print line
+	else
+	{
+		while (!feof(fptr))
+		{	
+			fgets(line, nlines, fptr);
+			printf("%s", line);
 			
 		}
 
 
 	}
-//close file, clear processor resources
+
+	//close file, clear processor resources
 	fclose(fptr);
+
+	printf("Printed %d lines from file '%s'. \n\n\n", nlines, filename);
+
 
 	return 0;
 }

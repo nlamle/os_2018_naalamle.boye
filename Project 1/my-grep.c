@@ -20,6 +20,8 @@ int myGrep(char *search_term, char *filename);
 
 int main(int argc, char *argv[])
 {
+
+	//if no file or search term specified
 	if (argc == 1)
 	{
 		printf("my-grep: searchterm[file..]\n");
@@ -27,15 +29,16 @@ int main(int argc, char *argv[])
 	}
 
 	//multiple files
-	int i = 1;
-	else{
-		while (i < argc){
+	
+	else
+	{
+		int i = 1;
+		while (i < argc)
+		{
 			myGrep(argv[1], argv[i+1]);
 			i = i + 1;
 		}
 	}
-
-
 
 	return 0;
 	
@@ -45,7 +48,7 @@ int main(int argc, char *argv[])
 int myGrep(char *search_term, char *filename){
 	FILE *fstream = fopen(filename, "r");
 
-		//if file is unable to open, print error message
+	//if file is unable to open, print error message
 	if (fstream == NULL) {
 		perror("my-grep: cannot open file\n");
 		exit(1);
@@ -66,19 +69,19 @@ int myGrep(char *search_term, char *filename){
 
 			chrs = fgetc(fstream);
 		}
-		char *matching_line;
 
-		while (nlines > 0){
-
-			if (strstr(fstream, search_term)){
-				matching_line = strstr(fstream, search_term);
-				printf("%s\n", matching_line);
+		//while not at the end of the file stream,
+		//get lines in the file, check if search term is in line
+		while(!feof(fstream)){
+			fgets(line, nlines, fstream);
+			if (strstr(line, search_term))
+			{
+				printf("%s\n", line);
 			}
-
-			nlines = nlines - 1;
-
 		}
 
 		fclose(fstream);
 	}
+
+	return 0;
 }

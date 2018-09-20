@@ -45,9 +45,15 @@ int main(int argc, char *argv[])
 
 
 int myGrep(char *search_term, char *filename){
+
 	if (filename == NULL)
 	{
-		//fgets(line, nlines, stdin);
+		char input_line[500];
+		printf("Write some lines: \n");
+		while(fgets(input_line, 100, stdin) && getc(stdin))
+		{
+			printf("%s\n", line);
+		}
 	}
 
 	if (strcmp("", search_term) == 0){
@@ -79,10 +85,11 @@ int myGrep(char *search_term, char *filename){
 			chrs = fgetc(fstream);
 		}
 
+		line = (char *)malloc(nlines * sizeof(char));
+
 		//while not at the end of the file stream,
 		//get lines in the file, check if search term is in line
 		while(!feof(fstream)){
-			line = (char *)malloc(nlines * sizeof(char));
 			getline(&line, &nlines, fstream);
 			if (strstr(line, search_term))
 			{

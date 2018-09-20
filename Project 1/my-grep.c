@@ -26,7 +26,17 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
-
+ //if no filename is specified
+	else if (argc == 2){
+		char input_line[500];
+		printf("Write some lines: \n");
+		while(fgets(input_line, 100, stdin))
+		{
+			if (getc(stdin) == '\n'){
+				printf("%s\n", line);
+			}
+		}
+	}
 
 	//multiple files, for each file, call myGrep function
 	else
@@ -40,65 +50,59 @@ int main(int argc, char *argv[])
 	}
 
 	return 0;
-	
+
 }
 
 
 int myGrep(char *search_term, char *filename){
 
-	if (filename == NULL)
-	{
-		char input_line[500];
-		printf("Write some lines: \n");
-		while(fgets(input_line, 100, stdin) && getc(stdin))
-		{
-			printf("%s\n", line);
-		}
-	}
-
+	//if search term is empty string
 	if (strcmp("", search_term) == 0){
 		exit(0);
 	}
 
-	FILE *fstream = fopen(filename, "r");
-
-	//if file is unable to open, print error message
-	if (fstream == NULL) {
-		perror("my-grep: cannot open file\n");
-		exit(1);
-	}
-
 	else{
 
-		//get number of lines in the file using characters
-		//a line ends when a newline character is reached
-		size_t nlines = 0;
-		char chrs;
-		chrs = fgetc(fstream);
+		FILE *fstream = fopen(filename, "r");
 
-		while (!EOF){
-			if (chrs == '\n')
-			{
-				nlines = nlines + 1;
-			}
+		//if file is unable to open, print error message
+		if (fstream == NULL) {
+			perror("my-grep: cannot open file\n");
+			exit(1);
+		}
 
+		else{
+
+			//get number of lines in the file using characters
+			//a line ends when a newline character is reached
+			size_t nlines = 0;
+			char chrs;
 			chrs = fgetc(fstream);
-		}
 
-		line = (char *)malloc(nlines * sizeof(char));
+			while (!EOF){
+				if (chrs == '\n')
+				{
+					nlines = nlines + 1;
+				}
 
-		//while not at the end of the file stream,
-		//get lines in the file, check if search term is in line
-		while(!feof(fstream)){
-			getline(&line, &nlines, fstream);
-			if (strstr(line, search_term))
-			{
-				printf("%s\n", line);
+				chrs = fgetc(fstream);
 			}
-		}
 
-		free(line);
-		fclose(fstream);
+			line = (char *)malloc(nlines * sizeof(char));
+
+			//while not at the end of the file stream,
+			//get lines in the file, check if search term is in line
+			while(!feof(fstream)){
+				getline(&line, &nlines, fstream);
+				if (strstr(line, search_term))
+				{
+					printf("%s\n", line);
+				}
+			}
+
+			free(line);
+			fclose(fstream);
+		}
 	}
 
 	return 0;

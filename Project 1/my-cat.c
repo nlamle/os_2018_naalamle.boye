@@ -41,7 +41,7 @@ int myCat(char *filename){
 		{
 			nlines = nlines + 1;
 		}
-		
+
 		chrs = fgetc(fptr);
 	}
 
@@ -57,10 +57,10 @@ int myCat(char *filename){
 	{
 		line = (char *)malloc(nlines * sizeof(char));
 		while (!feof(fptr))
-		{	
+		{
 			fgets(line, nlines, fptr);
 			printf("%s", line);
-			
+
 		}
 
 

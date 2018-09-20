@@ -26,11 +26,11 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
- //if no filename is specified
+	//if no filename is specified
 	else if (argc == 2){
 		char input_line[500];
 		printf("Write some lines: \n");
-		while(fgets(input_line, 100, stdin))
+		while(fgets(input_line, 100, stdin) && getc(stdin) == '\n')
 		{
 			if (getc(stdin) == '\n'){
 				printf("%s\n", line);

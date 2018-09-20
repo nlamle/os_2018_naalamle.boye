@@ -55,6 +55,7 @@ int myCat(char *filename){
 	//for each line in the file, print line
 	else
 	{
+		line = (char *)malloc(nlines * sizeof(char));
 		while (!feof(fptr))
 		{	
 			fgets(line, nlines, fptr);
@@ -66,6 +67,7 @@ int myCat(char *filename){
 	}
 
 	//close file, clear processor resources
+	free(line);
 	fclose(fptr);
 
 	printf("Printed %d lines from file '%s'. \n\n\n", nlines, filename);

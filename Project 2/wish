@@ -4,3 +4,24 @@
 
 //batch mode
 //while (!eof): getline(&buffer, &size, file_pointer); if (eof): exit(0);
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+int main(int argc, char const *argv[]) {
+
+  char *command;
+  size_t c_size = 64;
+
+  command = (char*)malloc(c_size * sizeof(char))
+
+  while (command != 'exit') {
+    printf("wish> " );
+    command = getline(&command, &c_size, stdin);
+  }
+
+  free(command);
+
+  return 0;
+}

@@ -12,8 +12,8 @@ int main(int argc, char const *argv[]) {
   //if more than one argument is given, throw error and exit
   if(argc>2)
   {
-    perror("arguments must be one or none.");
-    exit(0);
+    perror("An error has occurred.\n");
+    exit(1);
   }
 
 
@@ -26,7 +26,7 @@ int main(int argc, char const *argv[]) {
       printf("wish> " );
       command = getline(&input, &i_size, stdin);
     }
-
+    exit(0);
   }
 
 
@@ -37,8 +37,8 @@ int main(int argc, char const *argv[]) {
 
     if (wish_file == NULL)
     {
-      perror("error opening file.");
-      exit(0);
+      perror("An error has occurred.\n");
+      exit(1);
     }
 
     while(!feof(wish_file))
@@ -47,6 +47,7 @@ int main(int argc, char const *argv[]) {
     }
 
     fclose(wish_file);
+    exit(0);
   }
 
 

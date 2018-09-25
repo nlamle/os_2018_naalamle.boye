@@ -20,9 +20,9 @@ int main(int argc, char const *argv[]) {
   //if no argument is given, run in interactive mode
   else if(argc == 1)
   {  
-    char* end = "exit";
+    const char *END = "exit\n";
 
-    while (input != end) {
+    while (strcmp(input,END) != 0) {
       printf("wish> " );
       command = getline(&input, &i_size, stdin);
     }
@@ -46,6 +46,7 @@ int main(int argc, char const *argv[]) {
       command = getline(&input, &i_size, wish_file);
     }
 
+    fclose(wish_file);
   }
 
 

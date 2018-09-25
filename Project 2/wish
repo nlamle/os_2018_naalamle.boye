@@ -1,0 +1,6 @@
+//interactive mode
+//while (command != exit): print(wish> ); getline(&buffer, &size, stdin);
+//for each command, fork(), execv() or wait()/waitpid()
+
+//batch mode
+//while (!eof): getline(&buffer, &size, file_pointer); if (eof): exit(0);

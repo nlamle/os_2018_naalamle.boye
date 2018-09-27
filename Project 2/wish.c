@@ -2,6 +2,9 @@
 #include <string.h>
 #include <stdlib.h>
 
+void check_bltn(char *cmd);
+
+
 int main(int argc, char const *argv[]) {
 
   char *input;
@@ -20,9 +23,9 @@ int main(int argc, char const *argv[]) {
   //if no argument is given, run in interactive mode
   else if(argc == 1)
   {  
-    const char *END = "exit\n";
 
-    while (strcmp(input,END) != 0) {
+    while (input != NULL) {
+      check_bltn(input);
       printf("wish> " );
       command = getline(&input, &i_size, stdin);
     }
@@ -55,4 +58,28 @@ int main(int argc, char const *argv[]) {
 
   free(input);
   return 0;
+}
+
+void check_bltn(char *cmd){
+
+  if (strcmp(cmd,"exit\n") == 0)
+  {
+    exit(0);
+  }
+
+  else if (strcmp(cmd, "cd\n") == 0)
+  {
+    // chdir(arg);
+    printf("hi\n");
+  }
+
+  else if (strcmp(cmd, "path\n") == 0)
+  {
+    /* code */
+  }
+
+  else{
+    /* code */
+  }
+
 }

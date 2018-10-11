@@ -68,11 +68,29 @@ int main(int argc, char const *argv[])
       exit(1);
     }
 
-    //loop through entire file and get each line, store as command
+    //loop through entire file and get each line, store as input
     while (!feof(wish_file))
     {
+      //reset buffer
+      for (int count = 0; count < 10; count++)
+      {
+        buffer[count] = NULL;
+      }
       getline(&input, &i_size, stdin);
+      char *p = strtok(input, " \n\t");
+      int count = 0;
+      while (p != NULL)
+      {
+        buffer[count] = p;
+        count++;
+
+        p = strtok(NULL, " \n\t");
+      }
     }
+
+    argmnt = buffer[0];
+    params = buffer[1];
+    run_command(argmnt, params);
 
     fclose(wish_file);
     exit(0);

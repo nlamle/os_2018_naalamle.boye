@@ -137,11 +137,26 @@ int run_command(char *cmd, char *args)
     {
       error_message();
     }
-    chdir(args);
+    else if (args)
+    {
+      int rc = chdir(args);
+      if (rc == 0)
+      {
+        printf("changed directories to: %s\n", args);
+      }
+
+      else if (rc == -1)
+      {
+        error_message();
+      }
+    }
   }
   else if (strcmp(cmd, path) == 0)
   {
-    /* code */
+    if (!args)
+    {
+      return 0;
+    }
   }
   else
   {

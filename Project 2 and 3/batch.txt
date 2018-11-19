@@ -1,0 +1,5 @@
+ls
+mkdir try
+cd try
+cat batch.txt
+ls & cd try & python helloworld.py & cat batch.txt

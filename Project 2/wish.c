@@ -2,21 +2,26 @@
 #include <string.h>
 #include <stdlib.h>
 #include <sys/wait.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <pthread.h>
 
 char *output_file = NULL;
 int flag = 0;
 char *buffer[10];
+char *para_buffer[10];
+char *para_p, *input, *argmnt, *params;
+size_t i_size = 64;
 void error_message();
 void exit_shell(char *args);
+void *set_input(void *new_input);
 int run_command(char *cmd, char *args);
+
 
 int main(int argc, char const *argv[])
 {
-
-    char *input, *argmnt, *params;
-    size_t i_size = 64;
     input = (char *)malloc(i_size * sizeof(char));
 
     //if more than one argument is given, throw error and exit
@@ -39,7 +44,35 @@ int main(int argc, char const *argv[])
             }
 
             printf("wish> ");
+
             getline(&input, &i_size, stdin);
+
+            if (strstr(input, "&") != NULL)
+            {
+                para_p = strtok(input, "&");
+                int count = 0;
+                while (para_p != NULL)
+                {
+                    para_buffer[count] = para_p;
+                    count++;
+                    para_p = strtok(NULL, "&");
+                }
+
+                int num_args = sizeof(para_buffer)/sizeof(para_buffer[0]);
+                pthread_t threads[num_args];
+                int rc, i;
+
+                for (i = 0; i < num_args; ++i)
+                {
+                    rc = pthread_create(&threads[i], NULL, &set_input, (void*)para_buffer[i]);
+                }
+
+                //wait for threads to finish 
+                for (i = 0; i < num_args; ++i)
+                {
+                    rc = pthread_join(threads[i], NULL);
+                }
+            }
 
             if (strstr(input, ">") != NULL)
             {
@@ -60,6 +93,8 @@ int main(int argc, char const *argv[])
                 input = mybuffer[0];
                 output_file = mybuffer[1];
             }
+
+            
 
             //split input into tokens
             char *p = strtok(input, " \n\t");
@@ -102,6 +137,33 @@ int main(int argc, char const *argv[])
 
             getline(&input, &i_size, stdin);
 
+    if (strstr(input, "&") != NULL)
+            {
+                para_p = strtok(input, "&");
+                int count = 0;
+                while (para_p != NULL)
+                {
+                    para_buffer[count] = para_p;
+                    count++;
+                    para_p = strtok(NULL, "&");
+                }
+
+                int num_args = sizeof(para_buffer)/sizeof(para_buffer[0]);
+                pthread_t threads[num_args];
+                int rc, i;
+
+                for (i = 0; i < num_args; ++i)
+                {
+                    rc = pthread_create(&threads[i], NULL, set_input, (void*)para_buffer[i]);
+                }
+
+                //wait for threads to finish 
+                for (i = 0; i < num_args; ++i)
+                {
+                    rc = pthread_join(threads[i], NULL);
+                }
+            }
+            
             if (strstr(input, ">") != NULL)
             {
                 //set flag to 1
@@ -281,3 +343,12 @@ int run_command(char *cmd, char *args)
 
     return 0;
 }
+
+//function which sets the input to a given input
+void *set_input(void * new_input){
+    input = (char*)new_input;
+}
+
+
+
+
